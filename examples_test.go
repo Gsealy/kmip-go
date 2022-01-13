@@ -3,10 +3,9 @@ package kmip
 import (
 	"bufio"
 	"fmt"
-	"github.com/gemalto/kmip-go"
-	"github.com/gemalto/kmip-go/kmip14"
-	"github.com/gemalto/kmip-go/ttlv"
 	"github.com/google/uuid"
+	"github.com/gsealy/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/ttlv"
 	"net"
 	"time"
 )
@@ -20,20 +19,20 @@ func Example_client() {
 
 	biID := uuid.New()
 
-	msg := kmip.RequestMessage{
-		RequestHeader: kmip.RequestHeader{
-			ProtocolVersion: kmip.ProtocolVersion{
+	msg := RequestMessage{
+		RequestHeader: RequestHeader{
+			ProtocolVersion: ProtocolVersion{
 				ProtocolVersionMajor: 1,
 				ProtocolVersionMinor: 2,
 			},
 			BatchCount: 1,
 		},
-		BatchItem: []kmip.RequestBatchItem{
+		BatchItem: []RequestBatchItem{
 			{
 				UniqueBatchItemID: biID[:],
 				Operation:         kmip14.OperationDiscoverVersions,
-				RequestPayload: kmip.DiscoverVersionsRequestPayload{
-					ProtocolVersion: []kmip.ProtocolVersion{
+				RequestPayload: DiscoverVersionsRequestPayload{
+					ProtocolVersion: []ProtocolVersion{
 						{ProtocolVersionMajor: 1, ProtocolVersionMinor: 2},
 					},
 				},
@@ -70,10 +69,10 @@ func ExampleServer() {
 		panic(err)
 	}
 
-	kmip.DefaultProtocolHandler.LogTraffic = true
+	DefaultProtocolHandler.LogTraffic = true
 
-	kmip.DefaultOperationMux.Handle(kmip14.OperationDiscoverVersions, &kmip.DiscoverVersionsHandler{
-		SupportedVersions: []kmip.ProtocolVersion{
+	DefaultOperationMux.Handle(kmip14.OperationDiscoverVersions, &DiscoverVersionsHandler{
+		SupportedVersions: []ProtocolVersion{
 			{
 				ProtocolVersionMajor: 1,
 				ProtocolVersionMinor: 4,
@@ -88,7 +87,7 @@ func ExampleServer() {
 			},
 		},
 	})
-	srv := kmip.Server{}
+	srv := Server{}
 	panic(srv.Serve(listener))
 
 }

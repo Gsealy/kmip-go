@@ -2,7 +2,6 @@ package kmip
 
 import (
 	"context"
-	//"github.com/gemalto/kmip-go/kmip14"
 )
 
 // DestroyRequestPayload ////////////////////////////////////////
