@@ -3,9 +3,9 @@ package kmip
 import (
 	"bufio"
 	"crypto/tls"
-	"github.com/gemalto/kmip-go/kmip14"
-	"github.com/gemalto/kmip-go/ttlv"
 	"github.com/google/uuid"
+	"github.com/gsealy/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/ttlv"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

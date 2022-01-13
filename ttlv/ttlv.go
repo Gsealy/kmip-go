@@ -8,7 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ansel1/merry"
-	"github.com/gemalto/kmip-go/internal/kmiputil"
+	"github.com/gsealy/kmip-go/internal/kmiputil"
 	"io"
 	"math/big"
 	"strconv"

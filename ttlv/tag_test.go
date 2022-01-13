@@ -1,7 +1,7 @@
 package ttlv_test
 
 import (
-	"github.com/gemalto/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

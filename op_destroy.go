@@ -8,12 +8,12 @@ import (
 // DestroyRequestPayload ////////////////////////////////////////
 //
 type DestroyRequestPayload struct {
-	UniqueIdentifier  string
+	UniqueIdentifier string
 }
 
-// DestroyResponsePayload 
+// DestroyResponsePayload
 type DestroyResponsePayload struct {
-	UniqueIdentifier  string
+	UniqueIdentifier string
 }
 
 type DestroyHandler struct {

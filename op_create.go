@@ -2,7 +2,7 @@ package kmip
 
 import (
 	"context"
-	"github.com/gemalto/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/kmip14"
 )
 
 // TODO: should request and response payloads implement validation?

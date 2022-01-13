@@ -3,7 +3,7 @@ package kmip
 import (
 	"context"
 	"github.com/ansel1/merry"
-	"github.com/gemalto/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/kmip14"
 )
 
 // 4.3

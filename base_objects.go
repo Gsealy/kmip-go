@@ -1,8 +1,8 @@
 package kmip
 
 import (
-	"github.com/gemalto/kmip-go/kmip14"
-	"github.com/gemalto/kmip-go/ttlv"
+	"github.com/gsealy/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/ttlv"
 	"math/big"
 )
 

@@ -6,14 +6,14 @@ services:
     environment:
       CGO_ENABLED: 0
     volumes:
-    - ./build:/project/build
+      - ./build:/project/build
 
   dependencies:
     image: waisbrot/wait
     environment:
       TARGETS: pykmip-server:5696
     depends_on:
-    - pykmip-server
+      - pykmip-server
 
   pykmip-server:
     build:

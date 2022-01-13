@@ -7,7 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/ansel1/merry"
-	"github.com/gemalto/kmip-go/internal/kmiputil"
+	"github.com/gsealy/kmip-go/internal/kmiputil"
 	"go/format"
 	"log"
 	"os"
@@ -209,7 +209,7 @@ func prepareInput(s *Specifications) (*inputs, error) {
 
 	// prepare imports
 	if s.Package != "ttlv" {
-		in.Imports = append(in.Imports, "github.com/gemalto/kmip-go/ttlv")
+		in.Imports = append(in.Imports, "github.com/gsealy/kmip-go/ttlv")
 		in.TTLVPackage = "ttlv."
 	}
 

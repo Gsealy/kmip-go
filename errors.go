@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ansel1/merry"
-	"github.com/gemalto/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/kmip14"
 )
 
 func Details(err error) string {

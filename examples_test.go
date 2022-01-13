@@ -1,4 +1,4 @@
-package kmip_test
+package kmip
 
 import (
 	"bufio"

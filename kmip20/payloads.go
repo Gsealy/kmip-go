@@ -1,6 +1,6 @@
 package kmip20
 
-import "github.com/gemalto/kmip-go/ttlv"
+import "github.com/gsealy/kmip-go/ttlv"
 
 type Attributes struct {
 	Values ttlv.Values
