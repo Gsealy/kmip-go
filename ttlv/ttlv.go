@@ -386,7 +386,11 @@ func (t TTLV) MarshalXML(e *xml.Encoder, _ xml.StartElement) error {
 			}
 			n = n.Next()
 		}
-		return e.EncodeToken(xml.EndElement{Name: out.XMLName})
+		err = e.EncodeToken(xml.EndElement{Name: out.XMLName})
+		if err != nil {
+			return merry.Prepend(err, "Encode EndElement")
+		}
+		return e.Flush()
 
 	case TypeInteger:
 		if enum := DefaultRegistry.EnumForTag(t.Tag()); enum != nil {
