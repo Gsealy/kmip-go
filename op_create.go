@@ -2,6 +2,9 @@ package kmip
 
 import (
 	"context"
+
+	"github.com/ansel1/merry"
+
 	"github.com/gsealy/kmip-go/kmip14"
 )
 

@@ -1,10 +1,11 @@
 package kmip20
 
 import (
+	"testing"
+
 	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/gsealy/kmip-go/ttlv"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestCreateRequestPayload(t *testing.T) {

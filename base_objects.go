@@ -1,9 +1,10 @@
 package kmip
 
 import (
+	"math/big"
+
 	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/gsealy/kmip-go/ttlv"
-	"math/big"
 )
 
 // 2.1 Base Objects

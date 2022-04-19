@@ -7,13 +7,14 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"github.com/ansel1/merry"
-	"github.com/gsealy/kmip-go/internal/kmiputil"
 	"io"
 	"math/big"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/ansel1/merry"
+	"github.com/gsealy/kmip-go/internal/kmiputil"
 )
 
 //nolint:deadcode,varcheck
@@ -290,7 +291,6 @@ func (t TTLV) ValidHeader() error {
 		return ErrInvalidType
 	}
 	return nil
-
 }
 
 func (t TTLV) Next() TTLV {
@@ -554,7 +554,6 @@ func unmarshalXMLTval(buf *encBuf, tval *xmltval, attrTag Tag) error {
 }
 
 func (t *TTLV) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-
 	var out xmltval
 	err := d.DecodeElement(&out, &start)
 	if err != nil {
@@ -963,7 +962,6 @@ func (t *TTLV) UnmarshalTTLV(_ *Decoder, ttlv TTLV) error {
 // try and print as much of the value as it can decode, and return
 // a parsing error.
 func Print(w io.Writer, prefix, indent string, t TTLV) error {
-
 	currIndent := prefix
 
 	tag := t.Tag()
@@ -1038,7 +1036,6 @@ func Print(w io.Writer, prefix, indent string, t TTLV) error {
 // the segments of the TTLV.  Like Print, this is safe to call even on invalid TTLV
 // values.  An error will only be returned if there is a problem with the writer.
 func PrintPrettyHex(w io.Writer, prefix, indent string, t TTLV) error {
-
 	currIndent := prefix
 	b := []byte(t)
 
@@ -1080,7 +1077,6 @@ func PrintPrettyHex(w io.Writer, prefix, indent string, t TTLV) error {
 		s = s.Next()
 	}
 	return nil
-
 }
 
 var one = big.NewInt(1)

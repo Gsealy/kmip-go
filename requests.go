@@ -17,17 +17,18 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/ansel1/merry"
-	"github.com/gemalto/flume"
-	"github.com/google/uuid"
-	"github.com/gsealy/kmip-go/kmip14"
-	"github.com/gsealy/kmip-go/ttlv"
 	"io"
 	"net"
 	"runtime"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/ansel1/merry"
+	"github.com/gemalto/flume"
+	"github.com/google/uuid"
+	"github.com/gsealy/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/ttlv"
 )
 
 var serverLog = flume.New("kmip_server")
@@ -291,7 +292,7 @@ func (c *conn) serve(ctx context.Context) {
 		if err := tlsConn.Handshake(); err != nil {
 			// TODO: logging support
 			fmt.Printf("kmip: TLS handshake error from %s: %v", c.rwc.RemoteAddr(), err)
-			//c.server.logf("http: TLS handshake error from %s: %v", c.rwc.RemoteAddr(), err)
+			// c.server.logf("http: TLS handshake error from %s: %v", c.rwc.RemoteAddr(), err)
 			return
 		}
 		c.tlsState = new(tls.ConnectionState)
@@ -308,7 +309,7 @@ func (c *conn) serve(ctx context.Context) {
 	// TODO: do we really need instance pooling here?  We expect KMIP connections to be long lasting
 	c.dec = ttlv.NewDecoder(c.rwc)
 	c.bufr = bufio.NewReader(c.rwc)
-	//c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
+	// c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
 
 	for {
 		w, err := c.readRequest(ctx)
@@ -362,7 +363,7 @@ func (c *conn) serve(ctx context.Context) {
 		//	return
 		//}
 
-		//c.curReq.Store(w)
+		// c.curReq.Store(w)
 
 		//if requestBodyRemains(req.Body) {
 		//	registerOnHitEOF(req.Body, w.conn.r.startBackgroundRead)
@@ -383,11 +384,11 @@ func (c *conn) serve(ctx context.Context) {
 			h = DefaultProtocolHandler
 		}
 
-		//var resp ResponseMessage
-		//err = c.server.MessageHandler.Handle(ctx, w, &resp)
+		// var resp ResponseMessage
+		// err = c.server.MessageHandler.Handle(ctx, w, &resp)
 		// TODO: this cancelCtx() was created at the connection level, not the request level.  Need to
 		// figure out how to handle connection vs request timeouts and cancels.
-		//cancelCtx()
+		// cancelCtx()
 
 		// TODO: use recycled buffered writer
 		writer := bufio.NewWriter(c.rwc)
@@ -479,7 +480,7 @@ func (c *conn) readRequest(ctx context.Context) (w *Request, err error) {
 		TLS:        c.tlsState,
 	}
 
-	//c.r.setInfiniteReadLimit()
+	// c.r.setInfiniteReadLimit()
 
 	// Adjust the read deadline if necessary.
 	//if !hdrDeadline.Equal(wholeReqDeadline) {
@@ -759,11 +760,9 @@ func (h *StandardProtocolHandler) handleRequest(ctx context.Context, req *Reques
 	}
 
 	return
-
 }
 
 func (h *StandardProtocolHandler) ServeKMIP(ctx context.Context, req *Request, writer ResponseWriter) {
-
 	// we precreate the response object and pass it down to handlers, because due
 	// the guidance in the spec on the Maximum Response Size, it will be necessary
 	// for handlers to recalculate the response size after each batch item, which
@@ -847,7 +846,6 @@ func newFailedResponseBatchItem(reason kmip14.ResultReason, msg string) *Respons
 }
 
 func (m *OperationMux) bi(ctx context.Context, req *Request, reqItem *RequestBatchItem) *ResponseBatchItem {
-
 	req.CurrentItem = reqItem
 	h := m.handlerForOp(reqItem.Operation)
 	if h == nil {

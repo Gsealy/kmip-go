@@ -1,8 +1,9 @@
 package kmip
 
 import (
-	"github.com/gsealy/kmip-go/kmip14"
 	"math/big"
+
+	"github.com/gsealy/kmip-go/kmip14"
 )
 
 // 2.2

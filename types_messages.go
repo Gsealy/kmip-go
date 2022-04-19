@@ -1,8 +1,9 @@
 package kmip
 
 import (
-	"github.com/gsealy/kmip-go/kmip14"
 	"time"
+
+	"github.com/gsealy/kmip-go/kmip14"
 )
 
 // 7.1

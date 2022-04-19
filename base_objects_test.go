@@ -5,9 +5,9 @@ import (
 	"crypto/tls"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/gsealy/kmip-go/ttlv"
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

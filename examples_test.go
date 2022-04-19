@@ -6,10 +6,10 @@ import (
 	"net"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/gsealy/kmip-go"
 	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/gsealy/kmip-go/ttlv"
-	"github.com/google/uuid"
 )
 
 func Example_client() {
@@ -61,7 +61,6 @@ func Example_client() {
 
 	resp := ttlv.TTLV(buf)
 	fmt.Println(resp)
-
 }
 
 func ExampleServer() {
@@ -90,5 +89,4 @@ func ExampleServer() {
 	})
 	srv := kmip.Server{}
 	panic(srv.Serve(listener))
-
 }

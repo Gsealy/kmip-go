@@ -7,15 +7,16 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	. "github.com/gsealy/kmip-go/kmip14"
-	. "github.com/gsealy/kmip-go/ttlv"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"math"
 	"math/big"
 	"strconv"
 	"testing"
 	"time"
+
+	. "github.com/gsealy/kmip-go/kmip14"
+	. "github.com/gsealy/kmip-go/ttlv"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var sample = `
@@ -183,7 +184,6 @@ func TestTTLV(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run("", func(t *testing.T) {
-
 			b := Hex2bytes(tc.bs)
 			tt := TTLV(b)
 			assert.NoError(t, tt.Valid())
@@ -238,7 +238,6 @@ func TestTTLV(t *testing.T) {
 			default:
 				assert.EqualValues(t, test.v, tt.Value())
 			}
-
 		})
 	}
 }
@@ -282,7 +281,6 @@ func TestTTLV_UnmarshalTTLV(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, TTLV(buf.Bytes()), ttlv)
-
 }
 
 func TestTTLV_UnmarshalJSON_errors(t *testing.T) {
@@ -458,7 +456,6 @@ func TestTTLV_UnmarshalJSON_errors(t *testing.T) {
 			err := json.Unmarshal([]byte(testcase.input), &TTLV{})
 			require.EqualError(t, err, testcase.msg)
 		})
-
 	}
 }
 
@@ -638,7 +635,6 @@ func TestTTLV_UnmarshalJSON(t *testing.T) {
 
 				assert.Equal(t, expTTLV, ttlv)
 			}
-
 		})
 	}
 }
@@ -1070,7 +1066,6 @@ func TestTTLV_UnmarshalXML(t *testing.T) {
 
 				assert.Equal(t, expTTLV, ttlv)
 			}
-
 		})
 	}
 }
@@ -1173,6 +1168,5 @@ func TestTTLV_UnmarshalXML_errors(t *testing.T) {
 			err := xml.Unmarshal([]byte(testcase.input), &TTLV{})
 			require.EqualError(t, err, testcase.msg)
 		})
-
 	}
 }

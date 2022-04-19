@@ -5,10 +5,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	. "github.com/gsealy/kmip-go/kmip14"
-	. "github.com/gsealy/kmip-go/ttlv"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"io"
 	"io/ioutil"
 	"math"
@@ -16,6 +12,11 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	. "github.com/gsealy/kmip-go/kmip14"
+	. "github.com/gsealy/kmip-go/ttlv"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func parseBigInt(s string) *big.Int {
@@ -205,10 +206,8 @@ func (MarshalerStruct) MarshalTTLV(e *Encoder, _ Tag) error {
 			return e.EncodeStructure(TagMaskGenerator, func(e *Encoder) error {
 				return e.EncodeValue(TagBatchCount, 3)
 			})
-
 		})
 	})
-
 }
 
 type MarshalerFunc func(e *Encoder, tag Tag) error
@@ -262,7 +261,6 @@ func TestMarshal_tagPrecedence(t *testing.T) {
 
 	// for values not originating in a field, infer tag from the type name
 	type Name struct {
-
 		// for fields:
 
 		// infer from field name
@@ -462,7 +460,6 @@ func (*MarshalableSlicePtr) MarshalTTLV(e *Encoder, tag Tag) error {
 }
 
 func TestEncoder_EncodeValue(t *testing.T) {
-
 	type AttributeValue string
 	type Attribute struct {
 		AttributeValue string
@@ -1371,11 +1368,9 @@ func TestEncoder_EncodeValue(t *testing.T) {
 		})
 
 	}
-
 }
 
 func TestEncoder_EncodeStructure(t *testing.T) {
-
 	type testCase struct {
 		name     string
 		f        func(*Encoder) error
@@ -1429,10 +1424,8 @@ func TestEncoder_EncodeStructure(t *testing.T) {
 			require.NoError(t, enc2.EncodeValue(TagNone, tc.expected))
 
 			require.Equal(t, TTLV(buf2.Bytes()), TTLV(buf.Bytes()))
-
 		})
 	}
-
 }
 
 func TestTaggedValue_UnmarshalTTLV(t *testing.T) {
@@ -1459,7 +1452,6 @@ func TestTaggedValue_UnmarshalTTLV(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, s, tv)
-
 }
 
 func TestTaggedValue_MarshalTTLV(t *testing.T) {
@@ -1523,7 +1515,6 @@ func TestTaggedValue_MarshalTTLV(t *testing.T) {
 	assert.Equal(t, TypeTextString, ttlv2.Type())
 	assert.Equal(t, TagComment, ttlv2.Tag())
 	assert.Equal(t, "red", ttlv2.ValueTextString())
-
 }
 
 func parseTime(s string) time.Time {
