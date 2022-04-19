@@ -3,16 +3,19 @@ package kmip
 import (
 	"bufio"
 	"crypto/tls"
-	"github.com/google/uuid"
+	"testing"
+
 	"github.com/gsealy/kmip-go/kmip14"
 	"github.com/gsealy/kmip-go/ttlv"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 // clientConn returns a connection to the test kmip server.  Should be closed at end of test.
 func clientConn(t *testing.T) *tls.Conn {
+	t.Helper()
+
 	cert, err := tls.LoadX509KeyPair("./pykmip-server/server.cert", "./pykmip-server/server.key")
 	require.NoError(t, err)
 

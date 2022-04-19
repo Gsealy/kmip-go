@@ -527,14 +527,14 @@ func TestTTLV_UnmarshalJSON(t *testing.T) {
 			inputs: []string{
 				`{"tag":"BatchCount","type":"DateTime","value":"2001-01-01T10:00:00+10:00"}`,
 			},
-			exp: Value{Tag: TagBatchCount, Value: time.Date(2001, 01, 01, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
+			exp: Value{Tag: TagBatchCount, Value: time.Date(2001, 0o1, 0o1, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
 		},
 		{
 			name: "datetimehex",
 			inputs: []string{
 				`{"tag":"BatchCount","type":"DateTime","value":"0x0000000047DA67F8"}`,
 			},
-			exp: Value{Tag: TagBatchCount, Value: time.Date(2008, 03, 14, 11, 56, 40, 0, time.FixedZone("UTC", 0))},
+			exp: Value{Tag: TagBatchCount, Value: time.Date(2008, 0o3, 14, 11, 56, 40, 0, time.FixedZone("UTC", 0))},
 		},
 		{
 			name: "integer",
@@ -861,7 +861,7 @@ func TestTTLV_MarshalXML(t *testing.T) {
 		},
 		{
 			name: "datetime",
-			in:   Value{Tag: TagBatchCount, Value: time.Date(2001, 01, 01, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
+			in:   Value{Tag: TagBatchCount, Value: time.Date(2001, 0o1, 0o1, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
 			exp:  `<BatchCount type="DateTime" value="2001-01-01T00:00:00Z"></BatchCount>`,
 		},
 		{
@@ -973,7 +973,7 @@ func TestTTLV_UnmarshalXML(t *testing.T) {
 			inputs: []string{
 				`<BatchCount type="DateTime" value="2001-01-01T10:00:00+10:00"/>`,
 			},
-			exp: Value{Tag: TagBatchCount, Value: time.Date(2001, 01, 01, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
+			exp: Value{Tag: TagBatchCount, Value: time.Date(2001, 0o1, 0o1, 0, 0, 0, 0, time.FixedZone("UTC", 0))},
 		},
 		{
 			name: "integer",

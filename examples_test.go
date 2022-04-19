@@ -1,17 +1,18 @@
-package kmip
+package kmip_test
 
 import (
 	"bufio"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/gsealy/kmip-go/kmip14"
-	"github.com/gsealy/kmip-go/ttlv"
 	"net"
 	"time"
+
+	"github.com/gsealy/kmip-go"
+	"github.com/gsealy/kmip-go/kmip14"
+	"github.com/gsealy/kmip-go/ttlv"
+	"github.com/google/uuid"
 )
 
 func Example_client() {
-
 	conn, err := net.DialTimeout("tcp", "localhost:5696", 3*time.Second)
 	if err != nil {
 		panic(err)
@@ -19,20 +20,20 @@ func Example_client() {
 
 	biID := uuid.New()
 
-	msg := RequestMessage{
-		RequestHeader: RequestHeader{
-			ProtocolVersion: ProtocolVersion{
+	msg := kmip.RequestMessage{
+		RequestHeader: kmip.RequestHeader{
+			ProtocolVersion: kmip.ProtocolVersion{
 				ProtocolVersionMajor: 1,
 				ProtocolVersionMinor: 2,
 			},
 			BatchCount: 1,
 		},
-		BatchItem: []RequestBatchItem{
+		BatchItem: []kmip.RequestBatchItem{
 			{
 				UniqueBatchItemID: biID[:],
 				Operation:         kmip14.OperationDiscoverVersions,
-				RequestPayload: DiscoverVersionsRequestPayload{
-					ProtocolVersion: []ProtocolVersion{
+				RequestPayload: kmip.DiscoverVersionsRequestPayload{
+					ProtocolVersion: []kmip.ProtocolVersion{
 						{ProtocolVersionMajor: 1, ProtocolVersionMinor: 2},
 					},
 				},
@@ -69,10 +70,10 @@ func ExampleServer() {
 		panic(err)
 	}
 
-	DefaultProtocolHandler.LogTraffic = true
+	kmip.DefaultProtocolHandler.LogTraffic = true
 
-	DefaultOperationMux.Handle(kmip14.OperationDiscoverVersions, &DiscoverVersionsHandler{
-		SupportedVersions: []ProtocolVersion{
+	kmip.DefaultOperationMux.Handle(kmip14.OperationDiscoverVersions, &kmip.DiscoverVersionsHandler{
+		SupportedVersions: []kmip.ProtocolVersion{
 			{
 				ProtocolVersionMajor: 1,
 				ProtocolVersionMinor: 4,
@@ -87,7 +88,7 @@ func ExampleServer() {
 			},
 		},
 	})
-	srv := Server{}
+	srv := kmip.Server{}
 	panic(srv.Serve(listener))
 
 }

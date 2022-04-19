@@ -20,8 +20,8 @@ import (
 
 func parseBigInt(s string) *big.Int {
 	i := &big.Int{}
-	_, ok := i.SetString(s, 10)
-	if !ok {
+
+	if _, ok := i.SetString(s, 10); !ok {
 		panic(fmt.Errorf("can't parse as big int: %v", s))
 	}
 	return i
@@ -786,9 +786,10 @@ func TestEncoder_EncodeValue(t *testing.T) {
 			v: struct {
 				AttributeValue string
 			}{"red"},
-			expected: Value{Tag: TagCancellationResult, Value: Values{
-				Value{Tag: TagAttributeValue, Value: "red"},
-			},
+			expected: Value{
+				Tag: TagCancellationResult, Value: Values{
+					Value{Tag: TagAttributeValue, Value: "red"},
+				},
 			},
 		},
 		{
@@ -796,9 +797,10 @@ func TestEncoder_EncodeValue(t *testing.T) {
 			v: struct {
 				Color string `ttlv:"ArchiveDate"`
 			}{"red"},
-			expected: Value{Tag: TagCancellationResult, Value: Values{
-				Value{Tag: TagArchiveDate, Value: "red"},
-			},
+			expected: Value{
+				Tag: TagCancellationResult, Value: Values{
+					Value{Tag: TagArchiveDate, Value: "red"},
+				},
 			},
 		},
 		{
@@ -806,9 +808,10 @@ func TestEncoder_EncodeValue(t *testing.T) {
 			v: struct {
 				AttributeValue string `ttlv:"ArchiveDate"`
 			}{"red"},
-			expected: Value{Tag: TagCancellationResult, Value: Values{
-				Value{Tag: TagArchiveDate, Value: "red"},
-			},
+			expected: Value{
+				Tag: TagCancellationResult, Value: Values{
+					Value{Tag: TagArchiveDate, Value: "red"},
+				},
 			},
 		},
 		{
@@ -816,9 +819,10 @@ func TestEncoder_EncodeValue(t *testing.T) {
 			v: struct {
 				Color AttributeValue `ttlv:"ArchiveDate"`
 			}{"red"},
-			expected: Value{Tag: TagCancellationResult, Value: Values{
-				Value{Tag: TagArchiveDate, Value: "red"},
-			},
+			expected: Value{
+				Tag: TagCancellationResult, Value: Values{
+					Value{Tag: TagArchiveDate, Value: "red"},
+				},
 			},
 		},
 		{
@@ -826,9 +830,10 @@ func TestEncoder_EncodeValue(t *testing.T) {
 			v: struct {
 				ArchiveDate AttributeValue
 			}{"red"},
-			expected: Value{Tag: TagCancellationResult, Value: Values{
-				Value{Tag: TagArchiveDate, Value: "red"},
-			},
+			expected: Value{
+				Tag: TagCancellationResult, Value: Values{
+					Value{Tag: TagArchiveDate, Value: "red"},
+				},
 			},
 		},
 		{
@@ -1490,7 +1495,7 @@ func TestTaggedValue_MarshalTTLV(t *testing.T) {
 	assert.Equal(t, TypeInteger, ttlv.Type())
 	assert.Equal(t, int32(5), ttlv.ValueInteger())
 
-	fmt.Println(hex.EncodeToString(buf.Bytes()))
+	t.Log(hex.EncodeToString(buf.Bytes()))
 
 	buf.Reset()
 	tv.Tag = TagNone
@@ -1613,7 +1618,7 @@ func BenchmarkMarshal_struct(b *testing.B) {
 	v.CancellationResult.CancellationResult = &s4
 	v.Attribute.Attribute.Attribute = &s5
 	v.CancellationResult.CancellationResult.CancellationResult = &s6
-	//v.CertificateRequest = append(v.CertificateRequest, s7, s8, s9)
+	// v.CertificateRequest = append(v.CertificateRequest, s7, s8, s9)
 	v.CertificateRequest = append(v.CertificateRequest, &s7, &s8, &s9)
 
 	_, e := Marshal(v)

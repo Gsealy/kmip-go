@@ -29,11 +29,13 @@ const (
 	lenHeader      = lenTag + 1 + lenLen // tag + type + len
 )
 
-var ErrValueTruncated = errors.New("value truncated")
-var ErrHeaderTruncated = errors.New("header truncated")
-var ErrInvalidLen = errors.New("invalid length")
-var ErrInvalidType = errors.New("invalid KMIP type")
-var ErrInvalidTag = errors.New("invalid tag")
+var (
+	ErrValueTruncated  = errors.New("value truncated")
+	ErrHeaderTruncated = errors.New("header truncated")
+	ErrInvalidLen      = errors.New("invalid length")
+	ErrInvalidType     = errors.New("invalid KMIP type")
+	ErrInvalidTag      = errors.New("invalid tag")
+)
 
 // TTLV is a byte slice that begins with a TTLV encoded block.  The methods of TTLV operate on the
 // TTLV value located at the beginning of the slice.  Any bytes in the slice after
@@ -61,7 +63,7 @@ func (t TTLV) Tag() Tag {
 func (t TTLV) Type() Type {
 	// don't panic if header is truncated
 	if len(t) < 4 {
-		return Type(0)
+		return 0
 	}
 	return Type(t[3])
 }
@@ -323,8 +325,7 @@ func (t TTLV) MarshalXML(e *xml.Encoder, _ xml.StartElement) error {
 		Inner    []byte `xml:",innerxml"`
 	}{}
 
-	tagS := t.Tag().String()
-	if strings.HasPrefix(tagS, "0x") {
+	if tagS := t.Tag().String(); strings.HasPrefix(tagS, "0x") {
 		out.XMLName.Local = "TTLV"
 		out.Tag = tagS
 	} else {
@@ -386,11 +387,8 @@ func (t TTLV) MarshalXML(e *xml.Encoder, _ xml.StartElement) error {
 			}
 			n = n.Next()
 		}
-		err = e.EncodeToken(xml.EndElement{Name: out.XMLName})
-		if err != nil {
-			return merry.Prepend(err, "Encode EndElement")
-		}
-		return e.Flush()
+
+		return e.EncodeToken(xml.EndElement{Name: out.XMLName})
 
 	case TypeInteger:
 		if enum := DefaultRegistry.EnumForTag(t.Tag()); enum != nil {
@@ -572,8 +570,10 @@ func (t *TTLV) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return nil
 }
 
-var maxJSONInt = int64(1) << 52
-var maxJSONBigInt = big.NewInt(maxJSONInt)
+var (
+	maxJSONInt    = int64(1) << 52
+	maxJSONBigInt = big.NewInt(maxJSONInt)
+)
 
 func (t *TTLV) UnmarshalJSON(b []byte) error {
 	return t.unmarshalJSON(b, TagNone)
@@ -945,8 +945,7 @@ func (t *TTLV) UnmarshalTTLV(_ *Decoder, ttlv TTLV) error {
 		return nil
 	}
 
-	l := len(ttlv)
-	if len(*t) < l {
+	if l := len(ttlv); len(*t) < l {
 		*t = make([]byte, l)
 	} else {
 		*t = (*t)[:l]
@@ -979,13 +978,13 @@ func Print(w io.Writer, prefix, indent string, t TTLV) error {
 		if _, err := fmt.Fprintf(w, " (%s)", verr.Error()); err != nil {
 			return err
 		}
-		switch verr {
-		case ErrHeaderTruncated:
+
+		if errors.Is(verr, ErrHeaderTruncated) {
 			// print the err, and as much of the truncated header as we have
 			if _, err := fmt.Fprintf(w, " %#x", []byte(t)); err != nil {
 				return err
 			}
-		default:
+		} else {
 			// Something is wrong with the value.  Print the error, and the value
 			if _, err := fmt.Fprintf(w, " %#x", t.ValueRaw()); err != nil {
 				return err

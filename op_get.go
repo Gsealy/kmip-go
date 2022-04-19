@@ -24,6 +24,7 @@ type GetHandler struct {
 
 func (h *GetHandler) HandleItem(ctx context.Context, req *Request) (*ResponseBatchItem, error) {
 	var payload GetRequestPayload
+
 	err := req.DecodePayload(&payload)
 	if err != nil {
 		return nil, err
@@ -34,7 +35,7 @@ func (h *GetHandler) HandleItem(ctx context.Context, req *Request) (*ResponseBat
 		return nil, err
 	}
 
-	//req.Key = respPayload.Key
+	// req.Key = respPayload.Key
 
 	return &ResponseBatchItem{
 		ResponsePayload: respPayload,

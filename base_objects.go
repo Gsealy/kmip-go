@@ -192,7 +192,7 @@ type KeyValue struct {
 // · TR-31.
 // · Extensions.
 //
-//The following encoding options are currently defined:
+// The following encoding options are currently defined:
 //
 // · No Encoding (i.e., the wrapped un-encoded value of the Byte String Key Material field in the Key Value structure).
 // · TTLV Encoding (i.e., the wrapped TTLV-encoded Key Value structure).
@@ -396,9 +396,9 @@ type TransparentECPublicKey struct {
 //
 // The Template-Attribute, Common Template-Attribute, Private Key Template-Attribute, and Public Key
 // Template-Attribute structures are defined identically as follows:
-//type TemplateAttribute struct {
+// type TemplateAttribute struct {
 //	Attribute []Attribute
-//}
+// }
 
 type TemplateAttribute struct {
 	Name      []Name

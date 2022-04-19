@@ -83,7 +83,7 @@ func (srv *Server) Serve(l net.Listener) error {
 	var tempDelay time.Duration     // how long to sleep on accept failure
 	baseCtx := context.Background() // base is always background, per Issue 16220
 	ctx := baseCtx
-	//ctx := context.WithValue(baseCtx, ServerContextKey, srv)
+	// ctx := context.WithValue(baseCtx, ServerContextKey, srv)
 	for {
 		rw, e := l.Accept()
 		if e != nil {
@@ -99,7 +99,7 @@ func (srv *Server) Serve(l net.Listener) error {
 				if max := 1 * time.Second; tempDelay > max {
 					tempDelay = max
 				}
-				//srv.logf("http: Accept error: %v; retrying in %v", e, tempDelay)
+				// srv.logf("http: Accept error: %v; retrying in %v", e, tempDelay)
 				time.Sleep(tempDelay)
 				continue
 			}
@@ -107,7 +107,7 @@ func (srv *Server) Serve(l net.Listener) error {
 		}
 		tempDelay = 0
 		c := &conn{server: srv, rwc: rw}
-		//c.setState(c.rwc, StateNew) // before Serve can return
+		// c.setState(c.rwc, StateNew) // before Serve can return
 		go c.serve(ctx)
 	}
 }
@@ -125,7 +125,7 @@ func (srv *Server) Close() error {
 	atomic.StoreInt32(&srv.inShutdown, 1)
 	srv.mu.Lock()
 	defer srv.mu.Unlock()
-	//srv.closeDoneChanLocked()
+	// srv.closeDoneChanLocked()
 	err := srv.closeListenersLocked()
 	//for c := range srv.activeConn {
 	//	c.rwc.Close()
@@ -253,17 +253,16 @@ func (c *conn) close() {
 
 // Serve a new connection.
 func (c *conn) serve(ctx context.Context) {
-
 	ctx = flume.WithLogger(ctx, serverLog)
 	ctx, cancelCtx := context.WithCancel(ctx)
 	c.cancelCtx = cancelCtx
 	c.remoteAddr = c.rwc.RemoteAddr().String()
 	c.localAddr = c.rwc.LocalAddr().String()
-	//ctx = context.WithValue(ctx, LocalAddrContextKey, c.rwc.LocalAddr())
+	// ctx = context.WithValue(ctx, LocalAddrContextKey, c.rwc.LocalAddr())
 	defer func() {
 		if err := recover(); err != nil {
 			// TODO: logging support
-			//if err := recover(); err != nil && err != ErrAbortHandler {
+			// if err := recover(); err != nil && err != ErrAbortHandler {
 			const size = 64 << 10
 			buf := make([]byte, size)
 			buf = buf[:runtime.Stack(buf, false)]
@@ -273,10 +272,10 @@ func (c *conn) serve(ctx context.Context) {
 				fmt.Printf("kmip: panic serving %v: %v\n%s", c.remoteAddr, err, buf)
 			}
 
-			//c.server.logf("http: panic serving %v: %v\n%s", c.remoteAddr, err, buf)
+			// c.server.logf("http: panic serving %v: %v\n%s", c.remoteAddr, err, buf)
 		}
 		cancelCtx()
-		//if !c.hijacked() {
+		// if !c.hijacked() {
 		c.close()
 		//	c.setState(c.rwc, StateClosed)
 		//}

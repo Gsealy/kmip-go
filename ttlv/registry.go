@@ -2,7 +2,7 @@ package ttlv
 
 import (
 	"github.com/ansel1/merry"
-	"github.com/gsealy/kmip-go/internal/kmiputil"
+	"github.com/gemalto/kmip-go/internal/kmiputil"
 	"sort"
 )
 
@@ -19,8 +19,10 @@ func init() {
 	RegisterTypes(&DefaultRegistry)
 }
 
-var ErrInvalidHexString = kmiputil.ErrInvalidHexString
-var ErrUnregisteredEnumName = merry.New("unregistered enum name")
+var (
+	ErrInvalidHexString     = kmiputil.ErrInvalidHexString
+	ErrUnregisteredEnumName = merry.New("unregistered enum name")
+)
 
 // NormalizeName tranforms KMIP names from the spec into the
 // normalized form of the name.  Typically, this means removing spaces,
@@ -211,8 +213,10 @@ func (r *Registry) ParseInt(t Tag, s string) (int32, error) {
 	return ParseInt(s, r.EnumForTag(t))
 }
 
-// returns TagNone if not found.
-// returns error if s is a malformed hex string, or a hex string of incorrect length
+// ParseTag parses a string into Tag according the rules
+// in the KMIP Profiles regarding encoding tag values.
+// Returns TagNone if not found.
+// Returns error if s is a malformed hex string, or a hex string of incorrect length
 func (r *Registry) ParseTag(s string) (Tag, error) {
 	return ParseTag(s, &r.tags)
 }
