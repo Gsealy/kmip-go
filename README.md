@@ -11,7 +11,7 @@ Installation
 
 Or, to just install the `ppkmip` pretty printing tool:
 
-    go install github.com/gemalto/kmip-go/cmd/ppkmip
+    go install github.com/gsealy/kmip-go/cmd/ppkmip
 
 Packages
 --------
